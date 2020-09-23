@@ -21,4 +21,6 @@ public interface FileTestService extends IService<FileTest> {
      * @param fileTestPagePage
      */
     void getFileByPage(Page<FileTest> fileTestPagePage, Map<String, Object> fileParams);
+
+    byte[] exportCsv(String user_id);
 }

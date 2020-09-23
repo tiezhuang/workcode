@@ -40,13 +40,17 @@ public class UserController {
     public PageUtils getUserByPage(@RequestParam Map<String, Object> params){
         int page = Integer.parseInt(params.get("pageNumber").toString());
         int limit = Integer.parseInt(params.get("pageSize").toString());
-        System.out.println(params+"+++++++9");
         Page<User> userPage = new Page<>(page, limit);
        userService.getUserByPage(userPage,params);
         PageUtils pages = new PageUtils(userPage.getRecords(), (int) userPage.getTotal());
         return pages;
     }
 
+    /**
+     * 根据员工Id导出csv
+     * @param user_id
+     * @return
+     */
     @GetMapping("/userCsv")
     public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id){
         System.out.println(user_id+"+++++++++");

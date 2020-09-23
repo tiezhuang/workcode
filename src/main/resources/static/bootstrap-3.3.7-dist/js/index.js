@@ -19,7 +19,7 @@
                     pageSize: params.pageSize,                     // 每页记录条数
                     pageNumber: params.pageNumber,                 // 当前页索引
                     user_id: $('#user_id').val(),                        // 姓名
-                    gender: $('#gender').val()                     // 性别
+                    //gender: $('#gender').val()                     // 性别
                 };
             },
             //queryParams: queryParams,//前端调用服务时，会默认传递上边提到的参数，如果需要添加自定义参数，可以自定义一个函数返回请求参数
@@ -80,19 +80,19 @@
                 var downloadUser ={
                     user_id: $('#user_id').val(),
                 }
-                /*   $.ajax({
+                   $.ajax({
                      type:'get',
                      data:downloadUser,
                      contentType :'application/json',
                      dataType:'json',
                      url :'http://192.168.168.29:8110/user/userCsv',
-                     /!*success :function(data) {
+                     /*success :function(data) {
                          alert("OK");
                      },
                      error :function(e) {
                          alert("error");
-                     }*!/
-                 });*/
+                     }*/
+                 });
              }),
         t.on('load-success.bs.table', function (data) {//table加载成功后的监听函数
             console.log("load success");

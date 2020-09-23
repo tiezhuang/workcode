@@ -21,4 +21,6 @@ public interface UserLoginService extends IService<UserLogin> {
      * @param params
      */
     void getUserLoginByPage(Page<UserLogin> userPage, Map<String, Object> params);
+
+    byte[] exportCsv(String user_id);
 }
