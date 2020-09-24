@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,10 @@ import java.util.Map;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+    SimpleDateFormat Time3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void getUserByPage(Page<User> userPage, Map<String, Object> params) {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -38,12 +39,16 @@ public class UserLoginController {
      * @return
      */
     @GetMapping(value = "getUserLoginByPage")
-    public PageUtils getUserLoginByPage(@RequestParam Map<String, Object> params){
+    public PageUtils getUserLoginByPage(@RequestParam Map<String, Object> params) {
         System.out.println(params+"++++++");
         int userLoginPage = Integer.parseInt(params.get("pageNumber").toString());
         int userLoginLimit = Integer.parseInt(params.get("pageSize").toString());
         Page<UserLogin> userPage = new Page<>(userLoginPage, userLoginLimit);
-        userLoginService.getUserLoginByPage(userPage,params);
+        try {
+            userLoginService.getUserLoginByPage(userPage,params);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         PageUtils pages = new PageUtils(userPage.getRecords(), (int) userPage.getTotal());
         return pages;
     }
@@ -53,9 +58,11 @@ public class UserLoginController {
      * @return
      */
     @GetMapping("/userCsv")
-    public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id){
-        System.out.println(user_id+"+++++++++");
+    public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id,
+                                            @RequestParam(value = "startData",required = false) String startData,
+                                            @RequestParam(value = "endData",required = false) String endData
 
+                                            ){
         //设置excel文件名
         String fileName="员工登录日志";
         //设置HttpHeaders，设置fileName编码，排除导出文档名称乱码问题
@@ -63,7 +70,7 @@ public class UserLoginController {
         byte[] value = null;
         try {
             //获取要导出的数据
-            value = this.userLoginService.exportCsv(user_id);
+            value = this.userLoginService.exportCsv(user_id,startData,endData);
         }catch (Exception e){
             e.printStackTrace();
         }

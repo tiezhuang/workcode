@@ -8,8 +8,11 @@ import com.workcode.mapper.UserLoginMapper;
 import com.workcode.service.UserLoginService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -23,35 +26,68 @@ import java.util.Map;
  */
 @Service
 public class UserLoginServiceImpl extends ServiceImpl<UserLoginMapper, UserLogin> implements UserLoginService {
+    SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
+    SimpleDateFormat Time3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
-    public void getUserLoginByPage(Page<UserLogin> userPage, Map<String, Object> params) {
+    public void getUserLoginByPage(Page<UserLogin> userPage, Map<String, Object> params) throws ParseException {
 
         QueryWrapper<UserLogin> wrapper = new QueryWrapper<>();
         // wrapper.orderByAsc("sort");
-        //如果没有条件，就只做简单的查询
-        if(params.get("user_id") == null){
-            baseMapper.selectPage(userPage, wrapper);
-            return ;
+        String user_id = params.get("user_id").toString();
+        String startData = params.get("startData").toString();
+        String endData = params.get("endData").toString();
+        String endData1 = "";
+        String startData1 = "";
+        if(startData!=""){
+             startData1 = Time3.format(SDF.parse(startData));
+        }else {
+             startData1="";
         }
-        //如果有条件，获取条件参数，把条件加到wrapper中
-
-        wrapper.like("user_id", params.get("user_id").toString());
+        if(endData!=""){
+             endData1 = Time3.format(SDF.parse(endData));
+        }else {
+             endData1="";
+        }
+         if(!StringUtils.isEmpty(user_id)){
+            wrapper.like("user_id", user_id);
+        }
+        if(!StringUtils.isEmpty(startData1)){
+            wrapper.ge("login_time", startData1);
+        }
+        if(!StringUtils.isEmpty(endData1)){
+            wrapper.le("login_time", endData1);
+        }
         baseMapper.selectPage(userPage, wrapper);
-
     }
 
     @Override
-    public byte[] exportCsv(String user_id) {
+    public byte[] exportCsv(String user_id,String startData,String endData) throws ParseException {
         List<Map<String, Object>> mapList = null;
         QueryWrapper<UserLogin> wrapper = new QueryWrapper<>();
-        // 如果没有条件，就只做简单的查询
-        if (user_id==null){
-            mapList = this.baseMapper.selectMaps(wrapper);
+
+        String endData1 = "";
+        String startData1 = "";
+        if(startData!=""){
+            startData1 = Time3.format(SDF.parse(startData));
         }else {
-            wrapper.like("user_id", user_id);
-            mapList = this.baseMapper.selectMaps(wrapper);
+            startData1="";
         }
+        if(endData!=""){
+            endData1 = Time3.format(SDF.parse(endData));
+        }else {
+            endData1="";
+        }
+        if(!StringUtils.isEmpty(user_id)){
+            wrapper.like("user_id", user_id);
+        }
+        if(!StringUtils.isEmpty(startData1)){
+            wrapper.ge("login_time", startData1);
+        }
+        if(!StringUtils.isEmpty(endData1)){
+            wrapper.le("login_time", endData1);
+        }
+            mapList = this.baseMapper.selectMaps(wrapper);
 
         byte[] content = null;
         try {

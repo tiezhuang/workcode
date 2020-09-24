@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.workcode.entity.UserLogin;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public interface UserLoginService extends IService<UserLogin> {
      * @param userLoginPage
      * @param params
      */
-    void getUserLoginByPage(Page<UserLogin> userPage, Map<String, Object> params);
+    void getUserLoginByPage(Page<UserLogin> userPage, Map<String, Object> params) throws ParseException;
 
-    byte[] exportCsv(String user_id);
+    byte[] exportCsv(String user_id,String startData,String endData) throws ParseException;
 }
