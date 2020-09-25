@@ -18,7 +18,9 @@ $(function () {
             return {
                 pageSize: params.pageSize,                     // 每页记录条数
                 pageNumber: params.pageNumber,                 // 当前页索引
-                user_id: $('#user_id').val(),                        // 姓名
+                user_id: $('#user_id').val(),                  // 姓名
+                startData:$('#startData').val(),
+                endData:$('#endData').val(),
                 // gender: $('#gender').val()                     // 性别
             };
         },

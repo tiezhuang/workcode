@@ -10,8 +10,11 @@ import com.workcode.service.FileTestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -26,51 +29,67 @@ import java.util.Map;
 @Transactional
 @Service
 public class FileTestServiceImpl extends ServiceImpl<FileTestMapper, FileTest> implements FileTestService {
+    SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
+    SimpleDateFormat Time3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
-    public void getFileByPage(Page<FileTest> fileTestPagePage, Map<String, Object> fileParams) {
+    public void getFileByPage(Page<FileTest> fileTestPagePage, Map<String, Object> fileParams) throws ParseException {
         QueryWrapper<FileTest> wrapper = new QueryWrapper<>();
-        // wrapper.orderByAsc("sort");
-        //如果没有条件，就只做简单的查询
-         if(fileParams.get("user_id") == null){
+        String user_id = fileParams.get("user_id").toString();
+        String startData = fileParams.get("startData").toString();
+        String endData = fileParams.get("endData").toString();
+        String endData1 = "";
+        String startData1 = "";
+        if(startData!=""){
+            startData1 = Time3.format(SDF.parse(startData));
+        }else {
+            startData1="";
+        }
+        if(endData!=""){
+            endData1 = Time3.format(SDF.parse(endData));
+        }else {
+            endData1="";
+        }
+        if(!StringUtils.isEmpty(user_id)){
+            wrapper.like("user_id", user_id);
+        }
+        if(!StringUtils.isEmpty(startData1)){
+            wrapper.ge("create_time", startData1);
+        }
+        if(!StringUtils.isEmpty(endData1)){
+            wrapper.le("create_time", endData1);
+        }
         baseMapper.selectPage(fileTestPagePage, wrapper);
-        return ;
-          }
-        //如果有条件，获取条件参数，把条件加到wrapper中
-
-        wrapper.like("user_id", fileParams.get("user_id").toString());
-        baseMapper.selectPage(fileTestPagePage, wrapper);
-        //判断各参数是否有值，没有值，不管了；有值，把值加在wrapper中
-       /* if(!StringUtils.isEmpty(name)){
-            wrapper.like("userId", fileParams.get("searchText"));
-        }
-        if(!StringUtils.isEmpty(level)){
-            wrapper.eq("level", level);
-        }
-        if(!StringUtils.isEmpty(begin)){
-            wrapper.ge("gmt_create", begin);
-        }
-        if(!StringUtils.isEmpty(end)){
-            wrapper.le("gmt_create", end);
-
-        }
-        baseMapper.selectPage(pageParam, wrapper);*/
 
     }
 
     @Override
-    public byte[] exportCsv(String user_id) {
+    public byte[] exportCsv(String user_id,String  startData,String endData) throws ParseException {
 
         List<Map<String, Object>> fileList = null;
         QueryWrapper<FileTest> wrapper = new QueryWrapper<>();
-        // 如果没有条件，就只做简单的查询
-        if (user_id==null){
-            fileList = this.baseMapper.selectMaps(wrapper);
+        String endData1 = "";
+        String startData1 = "";
+        if(startData!=""){
+            startData1 = Time3.format(SDF.parse(startData));
         }else {
-            wrapper.like("user_id", user_id);
-            fileList = this.baseMapper.selectMaps(wrapper);
+            startData1="";
         }
-
+        if(endData!=""){
+            endData1 = Time3.format(SDF.parse(endData));
+        }else {
+            endData1="";
+        }
+        if(!StringUtils.isEmpty(user_id)){
+            wrapper.like("user_id", user_id);
+        }
+        if(!StringUtils.isEmpty(startData1)){
+            wrapper.ge("create_time", startData1);
+        }
+        if(!StringUtils.isEmpty(endData1)){
+            wrapper.le("create_time", endData1);
+        }
+        fileList = this.baseMapper.selectMaps(wrapper);
         byte[] content = null;
         try {
             String[] sTitles = new String[]{"id","操作记录","mac","工号","操作时间"};

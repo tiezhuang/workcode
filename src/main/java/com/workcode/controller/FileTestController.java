@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -40,7 +41,11 @@ public class FileTestController {
         int filePage = Integer.parseInt(fileParams.get("pageNumber").toString());
         int fileLimit = Integer.parseInt(fileParams.get("pageSize").toString());
         Page<FileTest> fileTestPagePage = new Page<>(filePage, fileLimit);
-        fileTestService.getFileByPage(fileTestPagePage,fileParams);
+        try {
+            fileTestService.getFileByPage(fileTestPagePage,fileParams);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         PageUtils pages = new PageUtils(fileTestPagePage.getRecords(), (int) fileTestPagePage.getTotal());
         return pages;
     }
@@ -50,7 +55,10 @@ public class FileTestController {
      * @return
      */
     @GetMapping("/userCsv")
-    public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id){
+    public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id,
+                                            @RequestParam(value = "startData",required = false) String startData,
+                                            @RequestParam(value = "endData",required = false) String endData
+                                            ){
         System.out.println(user_id+"+++++++++");
 
         //设置excel文件名
@@ -60,7 +68,7 @@ public class FileTestController {
         byte[] value = null;
         try {
             //获取要导出的数据
-            value = this.fileTestService.exportCsv(user_id);
+            value = this.fileTestService.exportCsv(user_id,startData,endData);
         }catch (Exception e){
             e.printStackTrace();
         }

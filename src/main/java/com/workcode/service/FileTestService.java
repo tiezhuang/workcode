@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.workcode.entity.FileTest;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public interface FileTestService extends IService<FileTest> {
      *
      * @param fileTestPagePage
      */
-    void getFileByPage(Page<FileTest> fileTestPagePage, Map<String, Object> fileParams);
+    void getFileByPage(Page<FileTest> fileTestPagePage, Map<String, Object> fileParams) throws ParseException;
 
-    byte[] exportCsv(String user_id);
+    byte[] exportCsv(String user_id,String  startData,String endData) throws ParseException;
 }

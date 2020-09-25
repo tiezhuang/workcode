@@ -4,7 +4,6 @@ package com.workcode.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.workcode.config.CsvUtil;
 import com.workcode.config.PageUtils;
-import com.workcode.entity.User;
 import com.workcode.entity.UserLogin;
 import com.workcode.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,6 @@ public class UserLoginController {
     public ResponseEntity<byte[]> exportCsv(@RequestParam(value = "user_id",required = false) String user_id,
                                             @RequestParam(value = "startData",required = false) String startData,
                                             @RequestParam(value = "endData",required = false) String endData
-
                                             ){
         //设置excel文件名
         String fileName="员工登录日志";
