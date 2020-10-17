@@ -3,15 +3,21 @@ package com.workcode.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.workcode.config.CsvUtil;
+import com.workcode.config.ExcelFormatUtil;
+import com.workcode.config.R;
+import com.workcode.config.ResultCodeEnum;
 import com.workcode.entity.User;
 import com.workcode.mapper.UserMapper;
 import com.workcode.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +30,7 @@ import java.util.Map;
  * @since 2020-08-31
  */
 @Service
+@Transactional
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -88,5 +95,54 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             e.printStackTrace();
         }
         return content;
+    }
+
+    /**
+     * 单个添加员工，判断员工工号相同返回添加失败，不相同添加成功
+     * @param user
+     * @return
+     */
+    @Override
+    public R add(User user) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", user.getUserId().toString());
+        if (baseMapper.selectCount(wrapper)>0){
+            return R.setResult(ResultCodeEnum.FAIL_USER);
+        }
+       baseMapper.insert(user);
+        return R.ok();
+    }
+
+    /**
+     * 批量添加员工
+     * @param excelFile
+     * @throws Exception
+     */
+    @Override
+    public void addUsers(MultipartFile excelFile) throws Exception {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        List<User> bankListByExcel = ExcelFormatUtil.getBankListByExcel(excelFile); //解析excel返回list
+        for (User user : bankListByExcel) { //便利list
+            wrapper.eq("user_id", user.getUserId().toString());//查找重复账号
+            if (baseMapper.selectCount(wrapper) == 0){//没有重复账号添加数据
+                baseMapper.insert(user);
+            }else {
+                System.out.println("有重复的");
+            }
+
+        }
+    }
+
+    /**
+     * 下载员工导入模板
+     * @param response
+     */
+    @Override
+    public void downloadExces(HttpServletResponse response) throws IOException {
+        String excelName = "员工账号模板";
+        String[] sTitles = new String[]{"员工账号"};
+        String[] mapKeys = new String[]{"user_id"};
+        List<Map<String,Double>> dataList = null;
+    ExcelFormatUtil.createExcel(response,excelName,sTitles,mapKeys, dataList);
     }
 }

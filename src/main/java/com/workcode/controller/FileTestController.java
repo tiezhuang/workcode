@@ -59,7 +59,6 @@ public class FileTestController {
                                             @RequestParam(value = "startData",required = false) String startData,
                                             @RequestParam(value = "endData",required = false) String endData
                                             ){
-        System.out.println(user_id+"+++++++++");
 
         //设置excel文件名
         String fileName="员工操作日志";

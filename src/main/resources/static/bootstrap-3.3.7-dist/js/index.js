@@ -1,7 +1,7 @@
     $(function () {
 
         var t = $("#table_server").bootstrapTable({
-            url: 'http://192.168.168.29:8110/user/getUserByPage',
+            url: 'http://192.168.254.29:8110/user/getUserByPage',
             method: 'get',
             //toolbar: '#toolbar',    //工具按钮用哪个容器
             striped: true,      //是否显示行间隔色
@@ -58,15 +58,15 @@
                     title: '更新时间',
                     field: 'updateTime',
                     align: 'center'
-                }
-               /* {
+                },
+                {
                     title: '操作',
                     field: 'usersId',
                     align: 'center',
                     formatter: function (value, row, index) {//自定义显示可以写标签哦~
-                        return '<a href="#" mce_href="#" οnclick="edit(\'' + row.usersId + '\')">操作</a> ';
+                        return '<a href="#">添加</a> ';
                     }
-                }*/
+                }
 
             ]
         });

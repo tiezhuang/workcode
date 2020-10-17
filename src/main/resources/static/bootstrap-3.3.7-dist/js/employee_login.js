@@ -1,7 +1,7 @@
 $(function () {
     var t = $("#table_server").bootstrapTable({
         //默认值为 'limit',传给服务端的参数为：limit, offset, search, sort, order Else
-        url: 'http://192.168.168.29:8110/user-login/getUserLoginByPage',   //请求方法
+        url: 'http://192.168.254.29:8110/user-login/getUserLoginByPage',   //请求方法
         method: 'get',
         //toolbar: '#toolbar',    //工具按钮用哪个容器
         striped: true,      //是否显示行间隔色

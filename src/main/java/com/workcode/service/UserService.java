@@ -1,9 +1,13 @@
 package com.workcode.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.workcode.config.R;
 import com.workcode.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -23,4 +27,23 @@ public interface UserService extends IService<User> {
      * @return
      */
     byte[] exportCsv(String user_id);
+
+    /**
+     * 添加员工
+     * @param user
+     * @return
+     */
+    R add(User user);
+
+    /**
+     * 批量添加员工
+     * @param excelFile
+     */
+    void addUsers(MultipartFile excelFile) throws Exception;
+
+    /**
+     * 下载员工导入模板
+     * @param response
+     */
+    void downloadExces(HttpServletResponse response) throws IOException;
 }
