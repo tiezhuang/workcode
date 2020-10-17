@@ -64,7 +64,7 @@
                     field: 'usersId',
                     align: 'center',
                     formatter: function (value, row, index) {//自定义显示可以写标签哦~
-                        return '<a href="#">添加</a> ';
+                        return '<a href="http://192.168.254.29:8110/jump/addUser">添加</a> ';
                     }
                 }
 
@@ -75,6 +75,7 @@
         $('#user_query').click(function () {
             $('#table_server').bootstrapTable('refresh')
         }),
+
           // 下载按钮
             $('#user_download').click(function () {
                 var downloadUser ={

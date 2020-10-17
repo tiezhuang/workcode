@@ -15,8 +15,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class Swagger2Config extends WebMvcConfigurationSupport {
-   // public class Swagger2Config {
+//public class Swagger2Config extends WebMvcConfigurationSupport {
+    public class Swagger2Config {
     @Bean
     public Docket webApiConfig(){
 
@@ -64,7 +64,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
     /**
      * 解决swagger-ui.html 404无法访问的问题
      */
-    @Override
+   /* @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 解决静态资源无法访问
         registry.addResourceHandler("/**")
@@ -75,6 +75,6 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
         // 解决swagger的js文件无法访问
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+    }*/
 
 }

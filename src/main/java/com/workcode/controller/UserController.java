@@ -8,6 +8,7 @@ import com.workcode.config.PageUtils;
 import com.workcode.config.R;
 import com.workcode.entity.User;
 import com.workcode.service.UserService;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -76,9 +78,21 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/addUser")
-    public R addUser(User user){
-        return userService.add(user);
+    @RequestMapping("/addUser")
+    public ModelAndView addUser(@RequestParam(value = "user_id",required = false) String user_id){
+        boolean parsable = NumberUtils.isParsable(user_id);
+        ModelAndView mv = new ModelAndView();
+        if(parsable){
+
+            if (userService.add(user_id).getMessage().equals("成功")){
+                mv.setViewName("redirect:/jump/addSuccess");
+                return mv;
+            }
+            mv.setViewName("redirect:/jump/addFail");
+            return mv;
+        }
+        mv.setViewName("redirect:/jump/addSpecs");
+        return mv;
     }
 
     /**

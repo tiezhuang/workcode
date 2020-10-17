@@ -54,14 +54,14 @@
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">员工电脑操作记录</h1>
+            <h1 class="page-header">添加员工</h1>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">条件查询</h3>
+                    <h3 class="panel-title">添加员工</h3>
                 </div>
 
                 <div class="panel-body">
-                    <form action="http://192.168.254.29:8110/file-test/userCsv">
+                    <form method="post" action="http://192.168.254.29:8110/user/addUser">
                         <div style="display:inline-block;">
                             <div style="float:left;padding:6px;">
                                 <span>工号：</span>
@@ -69,18 +69,7 @@
                             <div style="float:left;">
                                 <input id="user_id" name="user_id" class="form-control" style="width:200px;" placeholder="请输入员工工号" />
                             </div>
-                            <div style="float:left;padding:6px;">
-                                <span>操作日期：</span>
-                            </div>
-                            <div style="float:left;">
-                                <input type="datetime-local" name="startData" id="startData" class="form-control date-input">
-                            </div>
-                            <div style="float:left;padding:6px;">
-                                <span>--</span>
-                            </div>
-                            <div style="float:left;">
-                                <input type="datetime-local" name="endData" id="endData" class="form-control date-input">
-                            </div>
+                            <p><label class="sgi_admin" th:text="${msg}"></label></p>
                             <!--<div style="float:left;padding:6px;">
                                 <span>性别：</span>
                             </div>
@@ -93,19 +82,13 @@
                             </div>-->
                         </div>
                         <div style="float:right;margin-right:20px;">
-                            <button type="submit" id="file_download" class="btn btn-primary">下载</button>
+                            <button type="submit" id="" class="btn btn-primary">添加</button>
                         </div>
                     </form>
-
-                    <div style="float:right;margin-right:20px;">
-                        <button id="file_query" class="btn btn-primary">查询</button>
-                    </div>
-
                 </div>
             </div>
             <div class="table-responsive">
-                <!--id可变的！！-->
-                <table id="table_server" ></table>
+
             </div>
         </div>
     </div>
@@ -117,6 +100,6 @@
 <script src="/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 
 <script src="/static/bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN.js"></script>
-<script src="/static/bootstrap-3.3.7-dist/js/file_page.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/register.js"></script>
 
 </html>

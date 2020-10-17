@@ -10,6 +10,7 @@ import com.workcode.entity.User;
 import com.workcode.mapper.UserMapper;
 import com.workcode.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -103,13 +105,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     @Override
-    public R add(User user) {
+    public R add(String user_id) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id", user.getUserId().toString());
+        wrapper.eq("user_id", user_id);
         if (baseMapper.selectCount(wrapper)>0){
             return R.setResult(ResultCodeEnum.FAIL_USER);
         }
-       baseMapper.insert(user);
+        User user = new User();
+        user.setUserId(Integer.valueOf(user_id));
+        user.setUserPassword("123456");
+        user.setCreateTime(new Date());
+        baseMapper.insert(user);
         return R.ok();
     }
 

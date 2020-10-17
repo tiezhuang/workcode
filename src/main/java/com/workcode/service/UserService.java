@@ -33,7 +33,7 @@ public interface UserService extends IService<User> {
      * @param user
      * @return
      */
-    R add(User user);
+    R add(String user_id);
 
     /**
      * 批量添加员工
