@@ -3,7 +3,6 @@ package com.workcode.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.workcode.config.CsvUtil;
-import com.workcode.config.ExcelFormatUtil;
 import com.workcode.config.PageUtils;
 import com.workcode.config.R;
 import com.workcode.entity.User;
@@ -101,9 +100,12 @@ public class UserController {
      * @return
      */
     @PostMapping("/addUsers")
-    public R addUser(MultipartFile excelFile){
+    public R addUser(@RequestParam MultipartFile[] file){
+        System.out.println(file);
         try {
-            userService.addUsers(excelFile);
+            userService.addUsers(file[0]);
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

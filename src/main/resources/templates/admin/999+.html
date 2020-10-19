@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/bootstrap-3.3.7-dist/css/dash-board.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/bootstrap-3.3.7-dist/css/fileinput.min.css">
+</head>
+<body>
+<div class="wrapper wrapper-content animated fadeInRight"id="tablediv">
+    <!--列表搜索条件-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>学生列表筛选条件</h5>
+                    <!--<div class="ibox-tools">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        <a class="close-link"><i class="fa fa-times"></i></a>
+                    </div>-->
+                </div>
+                <div class="ibox-content search-query">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">学生id:</label>
+                                <div class="input-group col-sm-4">
+                                    <input type="text" class="form-control" id="sId" name="sId">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">学生学号:</label>
+                                <div class="input-group col-sm-4">
+                                    <input type="text" class="form-control" id="sNumber" name="sNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">学生姓名:</label>
+                                <div class="input-group col-sm-4">
+                                    <input type="text" class="form-control" id="sName" name="sName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">学生年龄:</label>
+                                <div class="input-group col-sm-4">
+                                    <input type="text" class="form-control" id="sAge" name="sAge">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="hr-line-dashed"></div>-->
+                <div class="ibox-content search-query">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <button class="btn btn-primary infoSearchSubmit" type="button" id="studentSearchSubmit">
+                                    搜索
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--列表内容-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>学生信息列表</h2>
+                </div>
+                <div class="alarm">
+                    <button class="btn btn-danger" id="export" onclick="exportData()">导出Excel</button>
+                    <!--<button class="btn btn-danger" id="import" onclick="importData()">批量导入</button>-->
+                    <button class="btn btn-primary" id="upload">批量导入</button>
+                </div>
+                <div class="ibox-content">
+                    <div class="row row-lg">
+                        <div class="col-sm-12">
+                            <div class="example-wrap">
+                                <div class="example" >
+                                    <table id="studentTable"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">文件上传</h4>
+            </div>
+            <div class="modal-body">
+                <input id="f_upload" type="file"  name="file"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="/static/bootstrap-3.3.7-dist/js/jquery.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+
+<script src="../static/bootstrap-3.3.7-dist/js/fileinput.min.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN.js"></script>
+<script src="/static/bootstrap-3.3.7-dist/js/register.js"></script>
+
+</body>
+</html>

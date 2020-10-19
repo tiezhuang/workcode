@@ -2,20 +2,13 @@ package com.workcode.config;
 
 import com.workcode.entity.User;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,19 +28,20 @@ public class ExcelFormatUtil {
     public static List<User> getBankListByExcel(MultipartFile file) throws Exception {
         SimpleDateFormat Time3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<User> list = new ArrayList<User>();             // 读取的数据放入该集合中
-
-        XSSFWorkbook book = new XSSFWorkbook(file.getInputStream());        // 文件所在位置
-        XSSFSheet sheet = book.getSheetAt(0);//第一张单表
+        Workbook workbook = WorkbookFactory.create(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);  //示意访问sheet
+        //XSSFWorkbook book = new XSSFWorkbook(file.getInputStream());        // 文件所在位置
+        //XSSFSheet sheet = book.getSheetAt(0);//第一张单表
 
         for (int i = 1; i < sheet.getLastRowNum() + 1; i++) { //表的行数
             User user = new User();
-            XSSFRow row = sheet.getRow(i);
+           // XSSFRow row = sheet.getRow(i);
             String user_id = null;
             String user_password = null;
-            if (row != null) {
-                if(row.getCell(0)!=null){
-                    row.getCell(0).setCellType(Cell.CELL_TYPE_STRING);
-                    user_id = row.getCell(0).getStringCellValue();// 员工账号
+            if (sheet.getRow(i) != null) {
+                if(sheet.getRow(i).getCell(0)!=null){
+                    sheet.getRow(i).getCell(0).setCellType(Cell.CELL_TYPE_STRING);
+                    user_id = sheet.getRow(i).getCell(0).getStringCellValue();// 员工账号
                 }
                /* if(row.getCell(1)!=null){
                     row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
